@@ -213,6 +213,86 @@ $scope.archive = function() {
 <script src="angularfire.min.js"></script>
 					</code></pre>
 				</section>
+				<section>
+					<h3>Dependency Injection</h3>
+					<pre><code>
+var myApp = angular.module('myApp', ['firebase']);
+					</code></pre>
+				</section>
+				<section>
+					<h3>Setting Global Variables and Functions</h3>
+					<pre><code>
+myApp.value('fbURL', 'https://dmmmsutodo.firebaseio.com/')
+myApp.factory('ToDos', function($firebase, fbURL) {
+  return $firebase(new FIrebase(fbURL)).$asArray();
+})
+					</code></pre>
+				</section>
+				<section>
+					<section>
+						<h3>Setting the Controller</h3>
+						<pre><code>
+myApp.controller('myController', function($scope, $firebase, fbURL, Todos) {
+ ...
+})
+						</code></pre>
+					</section>
+					<section>
+						<h3>Listing of Tasks</h3>
+						<pre><code>
+ $scope.todos = Todos;
+						</code></pre>
+					</section>
+					<section>
+						<h3>Adding Task</h3>
+						<pre><code>
+$scope.addtodo = function() {
+  Todos.$add({text:$scope.todoText, done: false}).then(function() {
+    $scope.todoText = '';
+  });
+};
+						</code></pre>
+					</section>
+					<section>
+						<h3>Counting of Remaining Tasks</h3>
+						<pre><code>
+$scope.remaining = function() {
+  var count = 0;
+  angular.forEach($scope.todos, function(todo) {
+    count += todo.done ? 0: 1;
+  });
+
+  return count;
+};
+						</code></pre>
+					</section>
+					<section>
+						<h3>Marking Tasks as Done</h3>
+						<pre><code>
+$scope.markDone = function(taskId, done) {
+  var data = new Firebase(fbURL + taskId);
+
+  if(done) {
+    data.update({done: true});
+  } else {
+    data.update({done: false});
+  }
+};
+						</code></pre>
+					</section>
+					<section>
+						<h3>Clearing Completed Tasks</h3>
+						<pre><code>
+$scope.archive = function() {
+  angular.forEach($scope.todos, function(index) {
+    if(index.done) {
+      $scope.todos.$remove(index);
+    };
+  });
+}
+						</code></pre>
+					</section>
+				</section>
 			</div>
 		</div>
 
