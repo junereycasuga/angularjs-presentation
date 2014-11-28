@@ -39,35 +39,181 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+				<!-- intro -->
 				<section>
-          <h3>Building real-time webapps with</h3>
+          			<h3>Building real-time webapps with</h3>
 					<h1>AngularJS + Firebase</h1>
 					<p>
-            <a href="http://junereycasuga.github.io">Junerey Casuga</a>
-            <br>
-            <small>
-              Lead Developer | <strong>Tagcash.com & Tagbond.com</strong>
-            </small>
+            			<a href="http://junereycasuga.github.io">Junerey Casuga</a>
+            			<br>
+			            <small>
+			              Lead Developer | <strong>Tagcash.com & Tagbond.com</strong>
+			            </small>
 					</p>
 				</section>
+
+				<!-- angularjs intro -->
 				<section>
-          <section>
-					  <h2>AngularJS</h2>
-          </section>
-          <section>
-            <ul>
-              <li>MVW Framework</li>
-              <li class="fragment fade-in">Two Way Data-Binding</li>
-              <li class="fragment fade-in">Dependency Injection</li>
-              <li class="fragment fade-in">Directives</li>
-            </ul>
-          </section>
+					<section>
+						<h2>AngularJS</h2>
+					</section>
+	          		<section>
+			            <ul>
+			              <li>MVW Framework</li>
+			              <li class="fragment fade-in">Two Way Data-Binding</li>
+			              <li class="fragment fade-in">Dependency Injection</li>
+			              <li class="fragment fade-in">Directives</li>
+			            </ul>
+	          		</section>
+				</section>
+
+				<!-- angularjs the basics -->
+          		<section>
+          			<section>
+	          			<h3>The Basics</h3>
+	          			<pre><code data-trim>
+<script src="angular.min.js"></script>
+          				</code></pre>
+          			</section>
+          			<section>
+          				<h3>The Basics</h3>
+          				<pre><code class="html" data-trim>
+<div ng-app="myApp">
+  ...
+</div>
+          				</code></pre>
+          			</section>
+          		</section>
+
+          		<!-- angularjs two way data-binding -->
+          		<section>
+          			<section>
+          				<h3>Two way data-binding</h3>
+          				<pre><code class="html" data-trim>
+<div>
+  <label>Name:</label>
+  <input type="text" ng-model="yourName" placeholder="Enter your name here">
+  <br>
+  <h1>Hello, {{ yourName }}!</h1>
+</div>
+          				</code></pre>
+          			</section>
+          		</section>
+
+          		<!-- angugularjs controller -->
+          		<section>
+          			<section>
+          				<h3>Working with Controllers</h3>
+          				<pre><code class="javascript" data-trim>
+var myApp = angular.module('myApp',[]);
+
+myApp.controller('myController', function($scope) {
+  $scope.yourName = 'Joe';
+  $scope.attribute = 'awesome';
+  
+  $scope.awesome = function() {
+  	$scope.attribute = 'awesome';
+  };
+  
+  $scope.cool = function() {
+  	$scope.attribute = 'cool';
+  };
+});    				
+          				</code></pre>
+          			</section>
+          			<section>
+          				<h3>Working with Controllers</h3>
+          				<pre><code class="html" data-trim>
+<div ng-app="myApp" ng-controller="myController">
+  <label>Name:</label>
+  <input type="text" ng-model="yourName" placeholder="Enter your name here">
+  <br>
+  <a href="#" ng-click="awesome()">Awesome</a>
+  <a href="#" ng-click="cool()">Cool</a>
+  <br>
+  <h1>Hello, {{ yourName }}! You are {{ attribute }}</h1>
+</div>
+          				</code></pre>
+          			</section>
+          		</section>
+
+          		<!-- To-Do App -->
+          		<section>
+          			<section>
+          				<h2>To-Do App</h2>
+          			</section>
+          			<section>
+          				<h3>The Controller</h3>
+          				<pre><code>
+$scope.todos = [
+	{text: 'learn angular', done: true},
+	{text: 'build real-time app', done: false}
+];
+
+$scope.addtodo = function() {
+	$scope.todos.push({
+		text:$scope.todoText,
+		done:false
+	});
+
+	$scope.todoText = '';
+};
+
+$scope.remaining = function() {
+	var count = 0;
+	angular.forEach($scope.tods, function(todo) {
+		count += todo.done ? 0 : 1;
+	});
+
+	return count;
+};
+
+$scope.archive = function() {
+	var oldTodos = $scope.todos;
+	$scope.todos = [];
+	angular.forEach(oldTodos, function(todo) {
+		if (!todo.done) $scope.todos.push(todo);
+	});
+};
+          				</code></pre>
+          			</section>
+          			<section>
+          				<h3>The View</h3>
+          				<pre><code>
+<h2>ToDo</h2>
+<span>{{ remaining() }} of {{ todos.length }} remaining</span>
+<a href="#" ng-click="archive()">archive</a>
+<ul>
+  <li ng-repeat="todo in todos">
+	<input type="checkbox" ng-model="todo.done">
+	<span>{{ todo.text }}</span>
+  </li>
+</ul>
+<form ng-submit="addtodo()">
+  <input type="text" ng-model="todoText" placeholder="add new todo here">
+  <input type="submit" value="add">
+</form>
+          				</code></pre>
+          			</section>
+          		</section>
+
+				<!-- firebase intro -->
+				<section>
+					<section>
+          				<h2>Firebase</h2>
+					</section>
+					<section>
+						<p>stores and syncs data in realtime</p>
+					</section>
 				</section>
 				<section>
-          <h2>Firebase</h2>
+					<h3>Dependencies</h3>
+					<pre><code>
+<script src="firebase.js"></script>
+<script src="angularfire.min.js"></script>
+					</code></pre>
 				</section>
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
