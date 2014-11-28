@@ -255,7 +255,7 @@ $scope.addtodo = function() {
 					</section>
 					<section>
 						<h3>Counting of Remaining Tasks</h3>
-						<pre><code>
+						<pre><code class="javascript" data-trim>
 $scope.remaining = function() {
   var count = 0;
   angular.forEach($scope.todos, function(todo) {
@@ -268,7 +268,7 @@ $scope.remaining = function() {
 					</section>
 					<section>
 						<h3>Marking Tasks as Done</h3>
-						<pre><code>
+						<pre><code class="javascript" data-trim>
 $scope.markDone = function(taskId, done) {
   var data = new Firebase(fbURL + taskId);
 
@@ -282,7 +282,7 @@ $scope.markDone = function(taskId, done) {
 					</section>
 					<section>
 						<h3>Clearing Completed Tasks</h3>
-						<pre><code>
+						<pre><code class="javascript" data-trim>
 $scope.archive = function() {
   angular.forEach($scope.todos, function(index) {
     if(index.done) {
@@ -293,9 +293,28 @@ $scope.archive = function() {
 						</code></pre>
 					</section>
 				</section>
+				<section>
+					<h3>The View</h3>
+					<pre><code class="html" data-trim>
+<div ng-controller="myController">
+  <h2>ToDo</h2>
+  <span>{{ remaining() }} of {{ todos.length }} remaining</span>
+  <a href="#" ng-click="archive()">archive</a>
+  <ul>
+	<li ng-repeat="todo in todos">
+	  <input type="checkbox" ng-model="todo.done" ng-change="markDone(todo.$id, todo.done)">
+	  <span>{{ todo.text }}</span>
+    </li>
+  </ul>
+  <form ng-submit="addtodo()">
+	<input type="text" ng-model="todoText" placeholder="add new todo here">
+	<input type="submit" value="add">
+  </form>
+ 					</code></pre>
+				</section>
 			</div>
 		</div>
-
+</div>
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
 
